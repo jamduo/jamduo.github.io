@@ -13,9 +13,10 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to <a href="https://jamduo.org">jamduo!</a></h1>
+        <h2 className={styles.description}>making loveable software</h2>
       </main>
 
-      <footer className={styles.footer}>Made with ❤ by Jamduo</footer>
+      <footer className={styles.footer}>Made with <span className={styles.heart}>❤</span> by Jamduo</footer>
     </div>
   )
 }
