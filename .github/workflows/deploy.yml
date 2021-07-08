@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           
       # - name: Use NPM 7
-      #   run: npm i -g npm@latest
+      # run: npm i -g npm@latest
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -35,7 +35,7 @@ jobs:
 
       - name: Build
         run: |
-          # npm ci --legacy-peer-deps
+          npm ci --legacy-peer-deps
           npm run lint
           npm run build
           npm run export
