@@ -11,6 +11,7 @@ module.exports = (phase, { defaultConfig }) => {
       ...defaultConfig,
       poweredByHeader: false,
       reactStrictMode: true, // Good Practice apparently
+      swcMinify: true
   };
 
   /* development only config options here */
