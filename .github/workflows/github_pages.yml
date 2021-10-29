@@ -40,10 +40,10 @@ jobs:
 
     steps:
       - id: download_artifacts
-          name: Download the static export
-          uses: actions/download-artifact@v2
-          with:
-            name: static_content
+        name: Download the static export
+        uses: actions/download-artifact@v2
+        with:
+          name: static_content
 
       - id: "deploy"
         name: "Checkout, Build and Install the New Version"
