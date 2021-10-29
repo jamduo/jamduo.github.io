@@ -1,4 +1,4 @@
-name: Deploy to Github Pages
+name: Deploy to Production
 on:
   push:
     branches:
@@ -9,7 +9,8 @@ jobs:
   build:
     uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@main
 
-  deploy:
+  deploy-github-pages:
+    name: Deploy to Github Pages
     needs: build
     environment: Github.io
     runs-on: ubuntu-latest
@@ -30,3 +31,33 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./out
+
+  deploy-cloud:
+    name: Deploy to jamduo.org
+    environment: Production
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: download_artifacts
+          name: Download the static export
+          uses: actions/download-artifact@v2
+          with:
+            name: static_content
+
+      - id: "deploy"
+        name: "Checkout, Build and Install the New Version"
+        env:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          user: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_RSA_KEY }}
+          local_dir: "./out"
+          remote_dir: "~/gh_upload"
+        run: |
+          mkdir ~/.ssh
+          echo "${key}" > ~/.ssh/gh_actions_key
+          chmod 600 ~/.ssh/gh_actions_key
+          ssh_command="ssh $host -p $port -l $user -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
+          rsync -azr --delete -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
+          rm ~/.ssh -r
