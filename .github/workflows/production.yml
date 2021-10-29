@@ -13,6 +13,7 @@ jobs:
     name: Deploy to Github Pages
     needs: build
     environment: Github.io
+    concurrency: github_pages
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,6 +26,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: static_content
+          path: ./out/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
@@ -36,6 +38,7 @@ jobs:
     name: Deploy to jamduo.org
     environment: Production
     needs: build
+    concurrency: production
     runs-on: ubuntu-latest
 
     steps:
@@ -44,7 +47,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: static_content
-          path: ./out
+          path: ./out/
 
       - id: "deploy"
         name: "Copy static content to jamduo.org"
