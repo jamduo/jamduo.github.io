@@ -44,6 +44,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: static_content
+          path: ./out
 
       - id: "deploy"
         name: "Checkout, Build and Install the New Version"
