@@ -1,6 +1,6 @@
 import { FC, JSXElementConstructor, ReactElement } from "react";
 import { Box, BoxProps, ButtonGroup, Center, Flex, Heading, Text } from '@chakra-ui/react';
-import Layout from '@components/layouts/main';
+import Layout, { MetaOptions } from '@components/layouts/main';
 import Description from '@components/description';
 import { Link } from "@components/core";
 import { GithubLink, GitlabLink, WebsiteLink, DiscordLink } from "@components/social_links";
@@ -47,14 +47,20 @@ const profiles: ProfileOptions[] = [
   },
 ];
 
-export default function AboutUs() {
+const meta: MetaOptions = {
+  title: "About Us",
+  description: "About Us: jamduo! Find out about who we are, our members and our mission.",
+};
+
+  export default function AboutUs() {
   return (
-    <Layout title="Test">
+    <Layout meta={meta}>
       <Heading as="h1" lineHeight="1.15" fontSize="3rem">
         Who are we?
       </Heading>
       <Description as="h2" lineHeight="1.5" fontSize="1.25rem">
-        Justin And Mitch (ofc)
+        jamduo: we jam &amp; theres 2 of us.
+        {/* Justin And Mitch (JAM), a DUO of software developers, working on various passion projects. */}
       </Description>
       
       <Flex as="section" wrap="wrap" textAlign="center">

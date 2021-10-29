@@ -3,9 +3,9 @@ import Head from 'next/head';
 import { ButtonGroup, Button, Center, Spacer, Text } from '@chakra-ui/react';
 import { Link, ThemeToggleButton } from '@components/core';
 
-const Layout: FC<{title: string}> = ({title, children}) => (
+const Layout: FC<{ meta?: MetaOptions }> = ({ meta, children}) => (
   <Center flexDir="column" minH="100vh" p="0.5rem 0.5rem">
-    <Header title={title} />
+    <Header meta={meta} />
     <Navbar />
 
     <Center flexDir="column" as="main" flex="1" p="5rem 0">
@@ -16,18 +16,30 @@ const Layout: FC<{title: string}> = ({title, children}) => (
   </Center>
 );
 
-const Header: FC<{title: string}> = ({ title, children }) => (
+const Header: FC<{ meta?: MetaOptions }> = ({ meta = {} }) => (
   <Head>
-    <title>{title} | jamduo.org</title>
-    <meta name="description" content="jamduo.org's offical website for all our projects, products and services." />
+    {/* <Meta {...meta} /> */}
     <link rel="icon" href="/favicon.ico" />
-    {children}
   </Head>
 );
 
+export interface MetaOptions {
+  title?: string;
+  description?: string;
+}
+
+const Meta: FC<MetaOptions> = ({ title, description }) => {
+  return (
+    <Head>
+      <title>{title ?? "New Page"} | jamduo</title>
+      {description && <meta name="description" content={description} />}
+    </Head>
+  );
+};
+
 const Footer: FC = () => (
   <Center as="footer" w="100%" h="100px">
-    Made with <Text as="span" color="dark.red" p="0 0.2rem">❤</Text> by Jamduo
+    Made with <Text as="span" color="dark.red" p="0 0.2rem">❤</Text> by jamduo
   </Center>
 );
 
