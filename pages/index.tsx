@@ -1,22 +1,17 @@
-import Head from 'next/head';
 // import Image from 'next/image';
-import styles from '@styles/Home.module.css';
+import Layout from '@components/layouts/main';
+import { Button, Link, Heading } from '@chakra-ui/react';
+import Description from '@components/description';
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Home | jamduo.org</title>
-        <meta name="description" content="jamduo.org's offical website for all our projects, products and services." />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to <a href="https://jamduo.org">jamduo!</a></h1>
-        <h2 className={styles.description}>making loveable software</h2>
-      </main>
-
-      <footer className={styles.footer}>Made with <span className={styles.heart}>❤</span> by Jamduo</footer>
-    </div>
+    <Layout title="Home">
+      <Heading as="h1" lineHeight="1.15" fontSize="4rem" textAlign="center" m="0.83rem 0">
+        Welcome to <Link href="https://jamduo.org">jamduo!</Link>
+      </Heading>
+      <Description as="h2" lineHeight="1.5" fontSize="1.5rem">
+        making loveable software
+      </Description>
+    </Layout>
   )
 }
