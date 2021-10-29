@@ -33,7 +33,7 @@ const profiles: ProfileOptions[] = [
   },
   {
     name: "Mitch",
-    description: "It's ugly but it works",
+    description: "It's ugly, but it works",
     github: "ZyrnDev",
     gitlab: "Zyrn",
     website: {
