@@ -47,19 +47,18 @@ jobs:
           path: ./out
 
       - id: "deploy"
-        name: "Checkout, Build and Install the New Version"
+        name: "Copy static content to jamduo.org"
         env:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
           user: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_RSA_KEY }}
-          local_dir: "./out"
-          remote_dir: "~/gh_upload"
+          local_dir: "./out/*"
+          remote_dir: "${{ secrets.PROJECT_PATH }}"
         run: |
           mkdir ~/.ssh
           echo "${key}" > ~/.ssh/gh_actions_key
           chmod 600 ~/.ssh/gh_actions_key
-          ls
           ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
           rsync -azr --delete -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
           rm ~/.ssh -r
