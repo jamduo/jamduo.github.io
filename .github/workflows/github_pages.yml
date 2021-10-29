@@ -6,7 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  deployment:
+  build:
+    uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@main
+
+  deploy:
+    needs: build
+    environment: Github.io
     runs-on: ubuntu-latest
 
     strategy:
@@ -33,7 +38,6 @@ jobs:
       - name: Build
         run: |
           npm ci --legacy-peer-deps
-          npm run lint
           npm run build
           npm run export
 
