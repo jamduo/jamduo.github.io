@@ -53,41 +53,44 @@ jobs:
       - name: Export
         run: npm run export
           
-  # deploy:
-  #   name: Deploy
-  #   environment: Production
-  #   needs: build
-  #   runs-on: [ ubuntu-latest ]
+  deploy:
+    name: Deploy
+    environment: Production
+    needs: build
+    runs-on: [ ubuntu-latest ]
 
-  #   steps:
-  #     - id: "setup"
-  #       name: "Setup"
-  #       run: |
-  #         echo "${{ secrets.SSH_RSA_KEY }}" > ssh_key.temp
-  #         chmod 600 ssh_key.temp
+    steps:
+      - id: "setup"
+        name: "Setup"
+        run: |
+          echo "${{ secrets.SSH_RSA_KEY }}" > ssh_key.temp
+          chmod 600 ssh_key.temp
           
-  #     - id: "deploy"
-  #       name: "Checkout New Version"
-  #       run: |
-  #         echo "#!/bin/bash" > command.sh.temp
-  #         echo "cd ${{ secrets.PROJECT_PATH }}" >> command.sh.temp
-  #         echo "sudo git fetch origin" >> command.sh.temp
-  #         echo "sudo git reset --hard origin/main" >> command.sh.temp
-  #         echo "sudo git pull" >> command.sh.temp
-  #         ssh ${{ secrets.HOST }} -p ${{ secrets.PORT }} -l ${{ secrets.USERNAME }} -i ssh_key.temp -o "StrictHostKeyChecking=no" < command.sh.temp
-  #         rm command.sh.temp
+      - id: "deploy"
+        name: "Checkout New Version"
+        run: |
+          echo "#!/bin/bash
+            cd ${{ secrets.PROJECT_PATH }}
+            git fetch origin
+            git reset --hard origin/main
+            git pull
+          "  > command.sh.temp
+          ssh ${{ secrets.HOST }} -p ${{ secrets.PORT }} -l ${{ secrets.USERNAME }} -i ssh_key.temp -o "StrictHostKeyChecking=no" < command.sh.temp
+          rm command.sh.temp
 
-  #     - id: "install"
-  #       name: "Install / Deploy New Version"
-  #       run: |
-  #         echo "#!/bin/bash" > command.sh.temp
-  #         echo "cd ${{ secrets.PROJECT_PATH }}" >> command.sh.temp
-  #         echo "sudo npm install" >> command.sh.temp
-  #         echo "sudo npm run build && sudo systemctl restart ${{ secrets.SERVICE_NAME }}" >> command.sh.temp
-  #         ssh ${{ secrets.HOST }} -p ${{ secrets.PORT }} -l ${{ secrets.USERNAME }} -i ssh_key.temp -o "StrictHostKeyChecking=no" < command.sh.temp
-  #         rm command.sh.temp
+      - id: "install"
+        name: "Install / Deploy New Version"
+        run: |
+          echo "#!/bin/bash
+            cd ${{ secrets.PROJECT_PATH }}
+            npm install
+            npm run build 
+            npm run export
+          " > command.sh.temp
+          ssh ${{ secrets.HOST }} -p ${{ secrets.PORT }} -l ${{ secrets.USERNAME }} -i ssh_key.temp -o "StrictHostKeyChecking=no" < command.sh.temp
+          rm command.sh.temp
 
-  #     - id: "cleanup"
-  #       name: "Cleanup"
-  #       run: |
-  #         rm ssh_key.temp
+      - id: "cleanup"
+        name: "Cleanup"
+        run: |
+          rm ssh_key.temp
