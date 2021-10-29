@@ -58,6 +58,6 @@ jobs:
           mkdir ~/.ssh
           echo "${key}" > ~/.ssh/gh_actions_key
           chmod 600 ~/.ssh/gh_actions_key
-          ssh_command="ssh $host -p $port -l $user -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
+          ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
           rsync -azr --delete -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
           rm ~/.ssh -r
