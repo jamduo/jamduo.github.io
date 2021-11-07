@@ -1,8 +1,8 @@
-import { FC, JSXElementConstructor, ReactElement } from "react";
-import { Box, BoxProps, ButtonGroup, Center, Flex, Heading, Text } from '@chakra-ui/react';
-import Layout, { MetaOptions } from '@components/layouts/main';
+import { FC } from "react";
+import { Box, BoxProps, ButtonGroup, Flex, Heading } from '@chakra-ui/react';
+import Layout from '@components/layouts/centered';
+import { MetaOptions } from "@components/meta";
 import Description from '@components/description';
-import { Link } from "@components/core";
 import { GithubLink, GitlabLink, WebsiteLink, DiscordLink } from "@components/social_links";
 
 interface ProfileOptions {
@@ -55,10 +55,10 @@ const meta: MetaOptions = {
   export default function AboutUs() {
   return (
     <Layout meta={meta}>
-      <Heading as="h1" lineHeight="1.15" fontSize="3rem">
+      <Heading as="h1" size="4xl">
         Who are we?
       </Heading>
-      <Description as="h2" lineHeight="1.5" fontSize="1.25rem">
+      <Description as="h2" size="md">
         jamduo: we jam &amp; theres 2 of us.
         {/* Justin And Mitch (JAM), a DUO of software developers, working on various passion projects. */}
       </Description>
@@ -72,9 +72,9 @@ const meta: MetaOptions = {
 
 const Profile: FC<BoxProps & ProfileOptions > = ({ name, description, github, gitlab, website, discord, children, ...props }) => (
   <Box p="1rem" minW="15rem" m="auto" {...props}>
-    <Heading as="h1" fontSize="2rem">{name}</Heading>
+    <Heading as="h2" size="xl">{name}</Heading>
       
-    <Description as="h2" fontSize="1.25rem">&quot;{description}&quot;</Description>
+    <Description as="h3" size="md">&quot;{description}&quot;</Description>
     <ButtonGroup>
       {github && <GithubLink path={github} />}
       {gitlab && <GitlabLink path={gitlab} />}

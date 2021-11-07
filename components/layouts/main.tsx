@@ -1,69 +1,36 @@
-import { FC } from 'react';
-import Head from 'next/head';
-import { Container, ButtonGroup, Button, Center, Spacer, Text } from '@chakra-ui/react';
-import { Link, ThemeToggleButton } from '@components/core';
+import React, { FC } from 'react';
+import { Box, BoxProps, Center, CenterProps, Text, useColorModeValue } from '@chakra-ui/react';
+import { Router } from 'next/router';
+import Navbar from '@components/navbar';
 
-const Layout: FC<{ meta?: MetaOptions }> = ({ meta, children}) => (
-  <Center flexDir="column" minH="100vh" p="0.5rem">
-    <Header meta={meta} />
-    
+export const padding = "0.5rem";
+export const heading_height = "3.5rem";
+export const footer_height = "2rem";
+export const content_min_height = `calc(100vh - ${heading_height} - ${footer_height} -  4 * ${padding})`;
 
-    <Center flexDir="column" as="main" flex="1" p="5rem 0">
+const Layout: FC<{ router: Router }> = ({ router, children }) => (
+  <>
+    <Header p={padding} h={heading_height} />
+    <Box as="main" minH={content_min_height} p={padding} pt={`calc(${heading_height} + ${padding})`}>
       {children}
-    </Center>
-
-    <Footer />
-  </Center>
+    </Box>
+    <Footer p={padding} h={footer_height}/> 
+  </>
 );
 
-const Header: FC<{ meta?: MetaOptions }> = ({ meta = {} }) => (
-  <Container as="header" display="contents">
-    <Navbar />
-    <Meta {...meta} />
-    <Head>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-  </Container>
+// w={`calc(100% - 2 * ${padding})`}
+
+const Header: FC<BoxProps> = ({ ...props }) => (
+  <Box as="header" top="0" left="0" w="100%" position="fixed" zIndex="1" backdropFilter="blur(10px)" {...props}>
+    <Navbar w="100%" />
+  </Box>
 );
 
-export interface MetaOptions {
-  title?: string;
-  description?: string;
-  image?: string;
-  robots?: string;
-}
-
-const Meta: FC<MetaOptions> = ({ title, description, image, robots }) => (
-  <Head>
-    <meta name="robots" content={robots ?? "index, follow"} />
-    <title>{title ?? "New Page"} | jamduo</title>
-    {title && <meta name="og:title" content={title} />}
-    {description && <meta name="description" content={description} />}
-    {image && <meta property="og:image" content={image} />}
-  </Head>
-);
-
-const Footer: FC = () => (
-  <Center as="footer" w="100%" h="100px">
+const Footer: FC<CenterProps> = ({ ...props }) => (
+  <Center as="footer" w="100%" {...props}>
     made with <Text as="span" color="dark.red" p="0 0.2rem">❤</Text> by jamduo
   </Center>
 );
 
-const Navbar: FC = () => {
-  return (
-    <ButtonGroup w="100%">
-      <NavItem href="/" label="Home" />
-      <NavItem href="/about-us" label="About Us" />
-      <Spacer />
-      <ThemeToggleButton />
-    </ButtonGroup>
-  );
-};
-
-const NavItem: FC<{href: string, label: string}> = ({href, label}) => (
-  <Link href={href}>
-      <Button p="0.5rem 1rem" mr="0.5rem" aria-label={label}>{label}</Button>
-  </Link>
-);
 
 export default Layout;
