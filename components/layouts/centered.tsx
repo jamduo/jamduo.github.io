@@ -12,7 +12,7 @@ const Layout: FC<{ meta: MetaOptions }> = ({ meta = {}, children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Meta {...meta} />
-      <Center minH={content_min_height} flexDir="column" as="section" flex="1" p="1rem">
+      <Center minH={content_min_height} flexDir="column" as="section" flex="1" p="1rem" textAlign="center">
         {children}
       </Center>
     </>
