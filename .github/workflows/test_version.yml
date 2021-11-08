@@ -33,7 +33,9 @@ jobs:
       
       - id: install
         name: Install
-        run: npm ci --legacy-peer-deps
+        # # Clean Install
+        # run: npm ci --legacy-peer-deps
+        run: npm install
 
       - id: lint
         name: Lint
