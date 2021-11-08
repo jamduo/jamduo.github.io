@@ -6,6 +6,7 @@ import { MetaOptions } from '@components/meta';
 import { Link } from '@components/core';
 import { getSortedPosts, Post } from '@/lib/posts';
 import Description from '@components/description';
+import { PostTitle } from '@/pages/blog/[filename]';
 
 const meta: MetaOptions = {
   title: "Blog",
@@ -35,16 +36,11 @@ const PostPreview: FC<{ filename: string, content: string }> = ({ filename, cont
   );
 };
 
-const PostDescription: FC<Post> = ({ filename, title, date, content }) => {
+const PostDescription: FC<Post> = ({ children, ...post }) => {
+  const { filename, title, date, content } = post;
   return (
     <Box as="article" textAlign="start">
-      <Flex align="center">
-        <Link href={`/blog/${filename}`}>
-          <Heading as="h1" size="md">{title}</Heading>
-        </Link>
-        <Spacer />
-        <Description as="time" size="sm" dateTime={(new Date(date)).toDateString()}>{date}</Description>
-      </Flex>
+      <PostTitle {...post} isPreview />
       <PostPreview filename={filename} content={content} />
     </Box>
   );

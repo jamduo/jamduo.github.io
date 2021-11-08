@@ -11,6 +11,7 @@ const postsDirectory = path.join(process.cwd(), 'posts')
 export interface PostMetaData {
   date: string,
   title: string,
+  author: string,
   [key: string]: string | undefined
 }
 

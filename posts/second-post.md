@@ -1,6 +1,7 @@
 ---
 title: 'Second Post'
 date: '2021-01-01'
+author: 'Justin'
 ---
 
 First Paragraph of Second Post
