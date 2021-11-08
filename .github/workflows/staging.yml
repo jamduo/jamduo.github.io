@@ -1,0 +1,42 @@
+name: Deploy to Staging
+on:
+  push:
+    branches:
+      - staging
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@staging
+
+  deploy-cloud:
+    name: Deploy to staging.jamduo.org
+    environment: Staging
+    needs: build
+    concurrency: staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: download_artifacts
+        name: Download the static export
+        uses: actions/download-artifact@v2
+        with:
+          name: static_content
+          path: ./out/
+
+      - id: "deploy"
+        name: "Copy static content to staging.jamduo.org"
+        env:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          user: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_RSA_KEY }}
+          local_dir: "./out/*"
+          remote_dir: "${{ secrets.STAGING_PROJECT_PATH }}"
+        run: |
+          mkdir ~/.ssh
+          echo "${key}" > ~/.ssh/gh_actions_key
+          chmod 600 ~/.ssh/gh_actions_key
+          ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
+          rsync -azr --delete -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
+          rm ~/.ssh -r
