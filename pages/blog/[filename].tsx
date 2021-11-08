@@ -23,7 +23,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const PostTitle: FC<Post & { isPreview?: boolean }> = ({ filename, title, date, author, isPreview = false }) => {
+export const PostTitle: FC<Post | { isPreview?: boolean }> = ({ filename, title, date, author, isPreview = false }) => {
   const titleSize = isPreview ? 'lg' : '2xl';
   const bottomMargin = isPreview ? 0 : "0.8em";
   var Title = <Heading as="h1" size={titleSize} mb="0">{title}</Heading>;
