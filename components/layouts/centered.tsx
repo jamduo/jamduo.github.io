@@ -1,15 +1,35 @@
 import { FC } from "react";
 import Head from "next/head";
 import { Center } from "@chakra-ui/react";
-import { content_min_height, Footer } from "@components/layouts/main"
+import { Footer, content_min_height, footer_height, padding } from "@components/layouts/main"
 import Meta, { MetaOptions } from "@components/meta";
 import { motion } from "framer-motion";
 
+const transitionYDistance = 25;
+
+const max_height_during_transition = `${content_min_height} + 2 *  ${padding} + ${footer_height} - 100px`;
+
 const variants = {
-  hidden: { opacity: 0, y: 50, maxHeight: `calc(${content_min_height} - 100px)` },
+  hidden: { opacity: 0, y: transitionYDistance, maxHeight: `calc(${max_height_during_transition})` },
   enter: { opacity: 1, y: 0, transitionEnd: { maxHeight: 'none' } },
-  exit: { opacity: 0, y: 50, maxHeight: `calc(${content_min_height} - 100px)` },
+  exit: { opacity: 0, y: transitionYDistance, maxHeight: `calc(${max_height_during_transition})` },
 };
+
+const Animator: FC = ({ children }) => {
+  return (
+    <motion.div
+      initial="hidden"
+      animate="enter"
+      exit="exit"
+      variants={variants}
+      style={{ overflowY: "hidden",  }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 
 const Layout: FC<{ meta: MetaOptions }> = ({ meta = {}, children }) => {
   return (
@@ -18,20 +38,12 @@ const Layout: FC<{ meta: MetaOptions }> = ({ meta = {}, children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Meta {...meta} />
-      <motion.div
-        initial="hidden"
-        animate="enter"
-        exit="exit"
-        variants={variants}
-        // style={{ minHeight: content_min_height, width: "100%" }}
-        style={{ overflowY: "hidden",  }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-      >
+      <Animator>
         <Center minH={`calc(${content_min_height})`} flexDir="column" as="section" flex="1" p="1rem" textAlign="center">
           {children}
         </Center>
-        <Footer />
-      </motion.div>
+        <Footer p={padding} h={footer_height}/> 
+      </Animator>
     </>
   );
 };
