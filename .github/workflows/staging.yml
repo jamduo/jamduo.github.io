@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@staging
+    uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@development
 
   deploy-cloud:
     name: Deploy to staging.jamduo.org
