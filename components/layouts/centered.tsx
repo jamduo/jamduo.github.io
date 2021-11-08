@@ -12,7 +12,7 @@ const max_height_during_transition = `${max_content_view_height} - ${transitionY
 
 const variants = {
   hidden: { opacity: 0, y: transitionYDistance, maxHeight: `calc(${max_height_during_transition})` },
-  enter: { opacity: 1, y: 0, maxHeight: `calc(${max_content_view_height})`, transitionEnd: { maxHeight: 'none' } },
+  enter: { opacity: 1, y: 0, transitionEnd: { maxHeight: 'none' } },
   exit: { opacity: 0, y: transitionYDistance, maxHeight: `calc(${max_height_during_transition})` },
 };
 
