@@ -12,7 +12,7 @@ export interface PostMetaData {
   date: string,
   title: string,
   author: string,
-  [key: string]: string | undefined
+  [key: string]: string | any | undefined
 }
 
 export interface Post extends PostMetaData {
