@@ -7,11 +7,12 @@ import { motion } from "framer-motion";
 
 const transitionYDistance = 25;
 
-const max_height_during_transition = `${content_min_height} + 2 *  ${padding} + ${footer_height} - 100px`;
+const max_content_view_height = `${content_min_height} + 2 *  ${padding} + ${footer_height}`;
+const max_height_during_transition = `${max_content_view_height} - ${transitionYDistance}px`;
 
 const variants = {
   hidden: { opacity: 0, y: transitionYDistance, maxHeight: `calc(${max_height_during_transition})` },
-  enter: { opacity: 1, y: 0, transitionEnd: { maxHeight: 'none' } },
+  enter: { opacity: 1, y: 0, maxHeight: `calc(${max_content_view_height})`, transitionEnd: { maxHeight: 'none' } },
   exit: { opacity: 0, y: transitionYDistance, maxHeight: `calc(${max_height_during_transition})` },
 };
 
