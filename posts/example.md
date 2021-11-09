@@ -1,6 +1,9 @@
 ---
-title: 'Blah'
-date: '2020-01-01'
+title: 'Some Post Title'
+date: '3000-01-01'
+author: 'Author Name'
+published: false
+preview: "This is a preview of the post's content."
 ---
 
 [Reference](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Cheating")

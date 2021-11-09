@@ -5,6 +5,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import gfm from 'remark-gfm';
 import prism from 'remark-prism';
+import { is_dev } from '@lib/env';
 
 const postsDirectory = path.join(process.cwd(), 'posts')
 
@@ -12,6 +13,8 @@ export interface PostMetaData {
   date: string,
   title: string,
   author: string,
+  published: boolean,
+  preview?: string,
   [key: string]: string | any | undefined
 }
 
@@ -36,7 +39,9 @@ export function getPostFileNames() {
 
 export function getPosts(): Post[] {
   const filenames = getPostFileNames();
-  return filenames.map(filename => getPost(filename));
+  return filenames
+    .map(filename => getPost(filename))
+    .filter(post => post.published || is_dev); // Allow unpublished posts in dev mode
 }
 
 const sortByDateDesc = (a: PostMetaData, b: PostMetaData) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime();

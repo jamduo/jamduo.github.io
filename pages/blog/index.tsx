@@ -23,25 +23,32 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const PreviewMaxLength = 256;
-const PostPreview: FC<{ filename: string, content: string }> = ({ filename, content }) => {
-  const paragraphs = [...content.matchAll(/<p>(.+?)<\/p>/g)].map(match => match[1]);
-  const body = paragraphs.join(' ');
-  const preview = body.length > PreviewMaxLength + 3 ? body.slice(0, PreviewMaxLength) + "..." : body;
+const PostPreview: FC<Post> = ({ filename, content, preview }) => {
+  var preview_text;
+  
+  if (preview) {
+    preview_text = preview;
+  } else {
+    const paragraphs = [...content.matchAll(/<p>(.+?)<\/p>/g)].map(match => match[1]);
+    const body = paragraphs.join(' ');
+
+    preview_text = body.length <= PreviewMaxLength ? body : body.substring(0, PreviewMaxLength - 3) + '...';
+  }
 
   return (
     <Text>
-      {preview ?? "Preview Unavailable"}
+      {preview_text ?? "Preview Unavailable"}
       <Link href={`/blog/${filename}`} p="0 0.5rem">[Read More]</Link>
     </Text>
   );
 };
 
 const PostDescription: FC<Post> = ({ children, ...post }) => {
-  const { filename, title, date, content } = post;
+
   return (
     <Box as="article" textAlign="start">
       <PostTitle {...post} isPreview />
-      <PostPreview filename={filename} content={content} />
+      <PostPreview {...post} />
     </Box>
   );
 };

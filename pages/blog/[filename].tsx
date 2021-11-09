@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Box, Container, Flex, Heading, Spacer } from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, Spacer, Text } from '@chakra-ui/react';
 import { getPost, getPostPaths, Post } from '@/lib/posts';
 import Layout from '@components/layouts/centered';
 import Description from '@components/description';
@@ -23,10 +23,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const PostTitle: FC<Post & { isPreview?: boolean }> = ({ filename, title, date, author, isPreview = false }) => {
+export const PostTitle: FC<Post & { isPreview?: boolean }> = ({ filename, title, date, author, published, isPreview = false }) => {
   const titleSize = isPreview ? 'lg' : '2xl';
   const bottomMargin = isPreview ? 0 : "0.8em";
-  var Title = <Heading as="h1" size={titleSize} mb="0">{title}</Heading>;
+  var Title = <Heading as="h1" size={titleSize} mb="0">{ published || (<Text as="span" color="red">(Not Published) </Text>) }{title}</Heading>;
   if (isPreview) {
     Title = <Link href={`/blog/${filename}`}>{Title}</Link>;
   }
