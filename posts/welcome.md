@@ -3,6 +3,7 @@ title: 'Welcome'
 date: '2021-11-09'
 author: "Mitch"
 published: true
+preview: "An exciting 😄 new update from the jamduo team. Our official launch 🚀 is finally here!"
 ---
 
 # Welcome to the launch of jamduo
@@ -13,7 +14,5 @@ Simply put, this will be the first time actively advertising and marketing ourse
 Our first public facing project will be [this website][1] including the blog.
 
 Yours truely, Mitch
-
-[1]: https://jamduo.com
 
 [1]: https://jamduo.org "jamduo.org"

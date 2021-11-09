@@ -43,9 +43,9 @@ export const PostTitle: FC<Post & { isPreview?: boolean }> = ({ filename, title,
 };
 
 const Render: FC<Post> = ({ children, ...post }) => {
-  const { title, content } = post;
+  const { title, content, preview } = post;
   return (
-    <Layout meta={{ title }}>
+    <Layout meta={{ title, description: preview }}>
       <Container as="article" maxW="container.lg" textAlign="start">
         <PostTitle {...post} />
         <Box dangerouslySetInnerHTML={{ __html: content }} />
