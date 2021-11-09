@@ -9,16 +9,20 @@ const colors = {
 };
 
 const styles = {
-  // //This is mean to change the core colours of the theme (but the default theme is already good!?!?!)
-  // global: (props: any) => ({
-  //   body: {
-  //     color: mode(palette.light.foreground, palette.dark.foreground)(props),
-  //     bgColor: mode(palette.light.base, palette.dark.base)(props),
-  //   },
-  //   "*, *::before, ::after": {
-  //     // color: mode("black", 'white')(props),
-  //   }
-  // }),
+  //This is mean to change the core colours of the theme (but the default theme is already good!?!?!)
+  global: (props: any) => ({
+    body: {
+      margin: 0,
+      // color: mode(palette.light.foreground, palette.dark.foreground)(props),
+      // bgColor: mode(palette.light.base, palette.dark.base)(props),
+    },
+    "*, *::before, ::after": {
+      borderWidth: 0,
+      borderStyle: "solid",
+      boxSizing: "border-box",
+      // color: mode("black", 'white')(props),
+    }
+  }),
 };
 
 const fonts = {
