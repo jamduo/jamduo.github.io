@@ -4,6 +4,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const enviroment = process.env.NODE_ENV || "development";
 const isProduction = enviroment === 'production';
 
+// eslint-disable-next-line max-lines-per-function
 module.exports = (phase, { defaultConfig }) => {
   
   /**
@@ -15,6 +16,7 @@ module.exports = (phase, { defaultConfig }) => {
       ...defaultConfig,
       poweredByHeader: false,
       reactStrictMode: true, // Good Practice apparently
+      trailingSlash: true,
       // swcMinify: true,
   };
 

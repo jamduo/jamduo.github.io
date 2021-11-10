@@ -11,14 +11,14 @@ export const content_min_height = `100vh - ${heading_height} - ${footer_height} 
 const Layout: FC<{ router: Router }> = ({ router, children }) => (
   <>
     <Header p={padding} h={heading_height} />
-    <Box as="main" minH={`calc(${content_min_height})`} p={padding} pt={`calc(${heading_height} + ${padding})`}>
+    <Box as="main" minH={`calc(${content_min_height})`} p={padding}>
       {children}
     </Box>
   </>
 );
 
 export const Header: FC<BoxProps> = ({ ...props }) => (
-  <Box as="header" top="0" left="0" w="100%" position="fixed" zIndex="1" backdropFilter="blur(10px)" {...props}>
+  <Box as="header" top="0" w="100%" position="sticky" zIndex="1" backdropFilter="blur(10px)" {...props}>
     <Navbar w="100%" />
   </Box>
 );
