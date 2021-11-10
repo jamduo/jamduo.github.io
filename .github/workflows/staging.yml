@@ -38,5 +38,5 @@ jobs:
           echo "${key}" > ~/.ssh/gh_actions_key
           chmod 600 ~/.ssh/gh_actions_key
           ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
-          rsync -azr --delete -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
+          rsync --compress --recursive --times --delete-after --force --ignore-errors -rsh="${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
           rm ~/.ssh -r
