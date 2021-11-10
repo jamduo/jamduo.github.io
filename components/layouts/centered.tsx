@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Head from "next/head";
-import { Center } from "@chakra-ui/react";
+import { Center, CenterProps } from "@chakra-ui/react";
 import { Footer, content_min_height, footer_height, padding } from "@components/layouts/main"
 import Meta, { MetaOptions } from "@components/meta";
 import { motion } from "framer-motion";
@@ -23,7 +23,7 @@ const Animator: FC = ({ children }) => {
       animate="enter"
       exit="exit"
       variants={variants}
-      style={{ overflowY: "hidden",  }}
+      style={{ overflowY: "hidden" }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
       {children}
@@ -32,7 +32,9 @@ const Animator: FC = ({ children }) => {
 };
 
 
-const Layout: FC<{ meta: MetaOptions }> = ({ meta = {}, children }) => {
+const Layout: FC<CenterProps & { meta: MetaOptions }> = ({ meta = {}, children, ...props }) => {
+  const maxH = props.maxH || props.maxHeight;
+  const minH = maxH ? `min(${content_min_height}, ${maxH})` : `calc(${content_min_height})`;
   return (
     <>
       <Head>
@@ -40,7 +42,7 @@ const Layout: FC<{ meta: MetaOptions }> = ({ meta = {}, children }) => {
       </Head>
       <Meta {...meta} />
       <Animator>
-        <Center minH={`calc(${content_min_height})`} flexDir="column" as="section" flex="1" p="1rem" textAlign="center">
+        <Center minH={minH} flexDir="column" as="section" flex="1" p="1rem" textAlign="center" {...props}>
           {children}
         </Center>
         <Footer p={padding} h={footer_height}/> 

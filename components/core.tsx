@@ -18,7 +18,7 @@ export const ThemeToggleButton: FC<{ size?: string | number }> = ({ size = "1.25
 
 export const Link: FC<NextLinkProps & ChakraLinkProps & { isText?: boolean }> = ({ children, isText = false, ...props }) => {
   const colour = useColorModeValue(palette.light.cyan, palette.dark.cyan);
-  props.color = isText ? colour : undefined;
+  props.color = isText ? colour : "inherit";
 
   return (
     <NextLink href={props.href} passHref>

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { extendTheme } from "@chakra-ui/react"
 import { mode } from '@chakra-ui/theme-tools';
 import components from "./components";
@@ -11,17 +12,44 @@ const colors = {
 const styles = {
   //This is mean to change the core colours of the theme (but the default theme is already good!?!?!)
   global: (props: any) => ({
+    "*, *::before, ::after": {
+      borderWidth: 0,
+      borderStyle: "solid",
+      boxSizing: "border-box",
+    },
+    html: {
+      "lineHeight": 1.5,
+      "-webkit-text-size-adjust": "100%",
+      "fontFamily": "system-ui,sans-serif",
+      "-webkit-font-smoothing": "antialiased",
+      "textRendering": "optimizeLegibility",
+      "-moz-osx-font-smoothing": "grayscale",
+      "touchAction": "manipulation",
+    },
     body: {
       margin: 0,
       // color: mode(palette.light.foreground, palette.dark.foreground)(props),
       // bgColor: mode(palette.light.base, palette.dark.base)(props),
     },
-    "*, *::before, ::after": {
-      borderWidth: 0,
-      borderStyle: "solid",
-      boxSizing: "border-box",
-      // color: mode("black", 'white')(props),
-    }
+    a: {
+      textDecoration: "inherit",
+      backgroundColor: "transparent",
+    },
+    button: {
+      lineHeight: "inherit",
+      backgroundColor: "transparent",
+    },
+    'button, input, optgroup, select, textarea': {
+      padding: 0,
+      lineHeight: "inherit",
+      color: "inherit",
+      fontFamily: "inherit",
+      fontSize: "100%",
+      margin: 0,
+    },
+    'button, [role="button"]': {
+      cursor: "pointer",
+    },
   }),
 };
 

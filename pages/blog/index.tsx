@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { NextPage, GetStaticProps } from 'next';
-import { Box, Container, Heading, Flex, Spacer, Text } from '@chakra-ui/react';
+import { Box, Container, Heading, Flex, Spacer, Text, Tag } from '@chakra-ui/react';
 import Layout from '@components/layouts/centered';
 import { MetaOptions } from '@components/meta';
 import { Link } from '@components/core';
@@ -31,14 +31,15 @@ const PostPreview: FC<Post> = ({ filename, content, preview }) => {
   } else {
     const paragraphs = [...content.matchAll(/<p>(.+?)<\/p>/g)].map(match => match[1]);
     const body = paragraphs.join(' ');
-
     preview_text = body.length <= PreviewMaxLength ? body : body.substring(0, PreviewMaxLength - 3) + '...';
   }
 
   return (
     <Text>
       {preview_text ?? "Preview Unavailable"}
-      <Link href={`/blog/${filename}`} p="0 0.5rem">[Read More]</Link>
+      <Link href={`/blog/${filename}`} p="0 0.5rem">
+        <Tag>Read More</Tag>
+      </Link>
     </Text>
   );
 };
