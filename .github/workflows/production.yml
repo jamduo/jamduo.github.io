@@ -8,11 +8,10 @@ on:
 env:
   artifact-name: "static-export-staging"
   artifact-path: "./out/"
-  concurrency: "production"
 
 jobs:
   build:
-    concurrency: ${{ env.concurrency }}
+    concurrency: "production"
     uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@main
     with:
       node-version: "16.x"
@@ -25,7 +24,7 @@ jobs:
     environment: Production
 
     needs: [ build ]
-    concurrency: ${{ env.concurrency }}
+    concurrency: "production"
     uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@main
     with:
       artifact-name: ${{ env.artifact-name }}
