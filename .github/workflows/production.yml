@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    uses: jamduo/jamduo.github.io/.github/actions/build_test_export.yml@main
+    uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@main
     with:
       deployment-target: "Production"
       node-version: "16.x"
@@ -19,7 +19,7 @@ jobs:
   deploy:
     needs: [ build ]
 
-    uses: jamduo/jamduo.github.io/.github/actions/deploy.yml@main
+    uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@main
     with:
       deployment-target: "Production"
       artifact-name: "static-export-production"
