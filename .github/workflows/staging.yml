@@ -5,38 +5,34 @@ on:
       - development
   workflow_dispatch:
 
+env:
+  artifact-name: "static-export-staging"
+  artifact-path: "./out/"
+  concurrency: "staging"
+
 jobs:
   build:
-    uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@development
-
-  deploy-cloud:
-    name: Deploy to staging.jamduo.org
+    concurrency: ${{ env.concurrency }}
+    uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
+    with:
+      node-version: "16.x"
+      node-environment: "production"
+      artifact-name: ${{ env.artifact-name }}
+      artifact-path: ${{ env.artifact-path }}
+      site-url: "https://staging.jamduo.org"
+    
+  deploy:
     environment: Staging
-    needs: build
-    concurrency: staging
-    runs-on: ubuntu-latest
 
-    steps:
-      - id: download_artifacts
-        name: Download the static export
-        uses: actions/download-artifact@v2
-        with:
-          name: static_content
-          path: ./out/
-
-      - id: "deploy"
-        name: "Copy static content to staging.jamduo.org"
-        env:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          user: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_RSA_KEY }}
-          local_dir: "./out/*"
-          remote_dir: "${{ secrets.STAGING_PROJECT_PATH }}"
-        run: |
-          mkdir ~/.ssh
-          echo "${key}" > ~/.ssh/gh_actions_key
-          chmod 600 ~/.ssh/gh_actions_key
-          ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
-          rsync --compress --recursive --times --delete-after --force --ignore-errors -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
-          rm ~/.ssh -r
+    needs: [ build ]
+    concurrency: ${{ env.concurrency }}
+    uses: jamduo/jamduo.github.io/.github/workflows/deploy_ssh.yml@development
+    with:
+      artifact-name: ${{ env.artifact-name }}
+      artifact-path: ${{ env.artifact-path }}
+    secrets:
+      host: "${{ secrets.SSH_HOST }}"
+      port: "${{ secrets.SSH_PORT }}"
+      username: "${{ secrets.SSH_USER }}"
+      rsa-key: "${{ secrets.SSH_RSA_KEY }}"
+      target-path: "${{ secrets.STAGING_PROJECT_PATH }}"

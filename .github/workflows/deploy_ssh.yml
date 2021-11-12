@@ -1,0 +1,76 @@
+name: Deploy via SSH (rsync)
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: "Name of the artifact to be imported."
+        default: "static-content"
+        required: true
+        type: string
+
+      artifact-path:
+        description: "Path to the artifact to be imported."
+        default: "./out/"
+        required: true
+        type: string
+
+    secrets:
+      host:
+        description: "Hostname of the server to deploy to"
+        required: true
+        type: string
+      
+      port:
+        description: "Port of the server to deploy to"
+        required: true
+        type: string
+      
+      username:
+        description: "Username of the server to deploy to"
+        required: true
+        type: string
+
+      rsa-key:
+        description: "The private RSA key of the server to deploy to"
+        required: true
+        type: string
+      
+      target-path:
+        description: "The path on the server to deploy to"
+        required: true
+        default: "${{ secrets.SSH_PROJECT_PATH }}"
+        type: string
+
+env:
+  NODE_ENV: ${{ inputs.environment }}
+  SITE_URL: ${{ inputs.site_url }}
+      
+jobs:
+  deploy:
+    name: "Deploy"
+    runs-on: ubuntu-latest
+
+    steps:
+    - id: download_artifacts
+        name: "Download the artifacts"
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.artifact-path }}
+      
+    - id: "deploy"
+      name: "Copy artifact(s) content to remote host"
+      env:
+        host: ${{ secrets.host }}
+        port: ${{ secrets.port }}
+        user: ${{ secrets.username }}
+        key: ${{ secrets.rsa-key }}
+        local_dir: "${{ inputs.artifact-path }}*"
+        remote_dir: "${{ secrets.target-path }}"
+      run: |
+        mkdir ~/.ssh
+        echo "${key}" > ~/.ssh/gh_actions_key
+        chmod 600 ~/.ssh/gh_actions_key
+        ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
+        rsync --compress --recursive --times --delete-after --force --ignore-errors -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
+        rm ~/.ssh -r
