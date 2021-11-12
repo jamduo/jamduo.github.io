@@ -25,9 +25,9 @@ jobs:
       artifact-name: "static-export-production"
       artifact-path: "./out"
     secrets:
-      host: "${{ secrets.SSH_HOST }}"
-      port: "${{ secrets.SSH_PORT }}"
-      username: "${{ secrets.SSH_USER }}"
+      host: "${{ secrets.HOST }}"
+      port: "${{ secrets.PORT }}"
+      username: "${{ secrets.USERNAME }}"
       rsa-key: "${{ secrets.SSH_RSA_KEY }}"
       target-path: "${{ secrets.PROJECT_PATH }}"
   
