@@ -66,5 +66,5 @@ jobs:
         echo "${{ secrets.rsa-key }}" > ~/.ssh/gh_actions_key
         chmod 600 ~/.ssh/gh_actions_key
         ssh_command="ssh -p ${{ secrets.port }} -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
-        rsync --compress --recursive --times --delete-after --force --ignore-errors -e "$ssh_command" ${{ inputs.artifact-path }}/* ${{ secrets.username }}@${{ secrets.host }}:${{ secrets.target-path }}
+        rsync --compress --recursive --times --delete-after --force --ignore-errors -e "$ssh_command" ${{ inputs.artifact-path }}/ ${{ secrets.username }}@${{ secrets.host }}:${{ secrets.target-path }}/
         rm ~/.ssh -r
