@@ -23,22 +23,18 @@ on:
       host:
         description: "Hostname of the server to deploy to"
         required: true
-        type: string
       
       port:
         description: "Port of the server to deploy to"
         required: true
-        type: string
       
       username:
         description: "Username of the server to deploy to"
         required: true
-        type: string
 
       rsa-key:
         description: "The private RSA key of the server to deploy to"
         required: true
-        type: string
       
       target-path:
         description: "The path on the server to deploy to"
