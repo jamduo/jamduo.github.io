@@ -13,8 +13,10 @@ env:
 jobs:
   build:
     concurrency: $deployment-target
+
     uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
     with:
+      deployment-target: $deployment-target
       node-version: "16.x"
       node-environment: "production"
       artifact-name: $artifact-name
@@ -23,7 +25,8 @@ jobs:
     
   deploy:
     needs: [ build ]
-    concurrency: "staging"
+    concurrency: $deployment-target
+
     uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
     with:
       deployment-target: $deployment-target

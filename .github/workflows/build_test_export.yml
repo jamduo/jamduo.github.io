@@ -2,6 +2,12 @@ name: Build, Lint and Test
 on:
   workflow_call:
     inputs:
+      deployment-target:
+        description: "The name of the deployment."
+        default: "development"
+        required: false
+        type: string
+        
       node-version:
         description: "Node version to use during the build, test and export process."
         default: "16.x"

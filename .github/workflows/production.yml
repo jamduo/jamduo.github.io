@@ -6,29 +6,32 @@ on:
   workflow_dispatch:
 
 env:
-  artifact-name: "static-export-staging"
+  artifact-name: "static-export-production"
   artifact-path: "./out/"
+  deployment-target: "Production"
 
 jobs:
   build:
-    concurrency: "production"
+    concurrency: $deployment-target
+
     uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@main
     with:
+      deployment-target: $deployment-target
       node-version: "16.x"
       node-environment: "production"
-      artifact-name: ${{ env.artifact-name }}
-      artifact-path: ${{ env.artifact-path }}
-      site-url: "https://jamduo.org"
+      artifact-name: $artifact-name
+      artifact-path: $artifact-path
+      site-url: "https://staging.jamduo.org"
     
   deploy:
-    environment: Production
-
     needs: [ build ]
-    concurrency: "production"
+    concurrency: $deployment-target
+
     uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@main
     with:
-      artifact-name: ${{ env.artifact-name }}
-      artifact-path: ${{ env.artifact-path }}
+      deployment-target: $deployment-target
+      artifact-name: $artifact-name
+      artifact-path: $artifact-path
     secrets:
       host: "${{ secrets.SSH_HOST }}"
       port: "${{ secrets.SSH_PORT }}"
@@ -39,7 +42,7 @@ jobs:
   deploy-github-pages:
     name: Deploy to Github Pages
     needs: build
-    environment: Github.io
+    # environment: Github.io
     concurrency: github_pages
     runs-on: ubuntu-latest
 
