@@ -5,33 +5,25 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  artifact-name: "static-export-production"
-  artifact-path: "./out"
-  deployment-target: "Production"
-
 jobs:
   build:
-    concurrency: $deployment-target
-
-    uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@main
+    uses: jamduo/jamduo.github.io/.github/actions/build_test_export.yml@main
     with:
-      deployment-target: $deployment-target
+      deployment-target: "Production"
       node-version: "16.x"
       node-environment: "production"
-      artifact-name: $artifact-name
-      artifact-path: $artifact-path
+      artifact-name: "static-export-production"
+      artifact-path: "./out"
       site-url: "https://jamduo.org"
     
   deploy:
     needs: [ build ]
-    concurrency: $deployment-target
 
-    uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@main
+    uses: jamduo/jamduo.github.io/.github/actions/deploy.yml@main
     with:
-      deployment-target: $deployment-target
-      artifact-name: $artifact-name
-      artifact-path: $artifact-path
+      deployment-target: "Production"
+      artifact-name: "static-export-production"
+      artifact-path: "./out"
     secrets:
       host: "${{ secrets.SSH_HOST }}"
       port: "${{ secrets.SSH_PORT }}"

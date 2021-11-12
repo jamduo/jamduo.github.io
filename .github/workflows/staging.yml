@@ -5,30 +5,25 @@ on:
       - development
   workflow_dispatch:
 
-env:
-  artifact-name: "static-export-staging"
-  artifact-path: "./out"
-  deployment-target: "Staging"
-
 jobs:
   build:
-    uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
+    uses: jamduo/jamduo.github.io/.github/actions/build_test_export.yml@development
     with:
-      deployment-target: $deployment-target
+      deployment-target: "Staging"
       node-version: "16.x"
       node-environment: "production"
-      artifact-name: $artifact-name
-      artifact-path: $artifact-path
+      artifact-name: "static-export-staging"
+      artifact-path: "./out"
       site-url: "https://staging.jamduo.org"
     
   deploy:
     needs: [ build ]
 
-    uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
+    uses: jamduo/jamduo.github.io/.github/actions/deploy.yml@development
     with:
-      deployment-target: $deployment-target
-      artifact-name: $artifact-name
-      artifact-path: $artifact-path
+      deployment-target: "Staging"
+      artifact-name: "static-export-staging"
+      artifact-path: "./out"
     secrets:
       host: "${{ secrets.SSH_HOST }}"
       port: "${{ secrets.SSH_PORT }}"
