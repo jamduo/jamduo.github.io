@@ -16,7 +16,7 @@ jobs:
     with:
       node-version: "16.x"
       node-environment: "production"
-      artifact-name: ${{ env.artifact-name }}
+      artifact-name: ${{ env['artifact-name'] }}
       artifact-path: ${{ env.artifact-path }}
       site-url: "https://staging.jamduo.org"
     
