@@ -8,10 +8,11 @@ on:
 env:
   artifact-name: "static-export-staging"
   artifact-path: "./out/"
+  deployment-target: "Staging"
 
 jobs:
   build:
-    concurrency: "staging"
+    concurrency: $deployment-target
     uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
     with:
       node-version: "16.x"
@@ -21,12 +22,11 @@ jobs:
       site-url: "https://staging.jamduo.org"
     
   deploy:
-    environment: Staging
-
     needs: [ build ]
     concurrency: "staging"
     uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
     with:
+      deployment-target: $deployment-target
       artifact-name: $artifact-name
       artifact-path: $artifact-path
     secrets:

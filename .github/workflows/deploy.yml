@@ -2,6 +2,11 @@ name: Deploy via SSH (rsync)
 on:
   workflow_call:
     inputs:
+      deployment-target:
+        description: "The name of the deployment."
+        required: true
+        type: string
+
       artifact-name:
         description: "Name of the artifact to be imported."
         default: "static-content"
@@ -48,6 +53,7 @@ env:
 jobs:
   deploy:
     name: "Deploy"
+    environment: ${{ inputs.deployment-target }}
     runs-on: ubuntu-latest
 
     steps:
