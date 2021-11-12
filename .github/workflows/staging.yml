@@ -12,24 +12,24 @@ env:
 
 jobs:
   build:
-    concurrency: ${{ env.concurrency }}
+    concurrency: ${{ concurrency }}
     uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
     with:
       node-version: "16.x"
       node-environment: "production"
-      artifact-name: ${{ env.artifact-name }}
-      artifact-path: ${{ env.artifact-path }}
+      artifact-name: ${{ artifact-name }}
+      artifact-path: ${{ artifact-path }}
       site-url: "https://staging.jamduo.org"
     
   deploy:
     environment: Staging
 
     needs: [ build ]
-    concurrency: ${{ env.concurrency }}
+    concurrency: ${{ concurrency }}
     uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
     with:
-      artifact-name: ${{ env.artifact-name }}
-      artifact-path: ${{ env.artifact-path }}
+      artifact-name: ${{ artifact-name }}
+      artifact-path: ${{ artifact-path }}
     secrets:
       host: "${{ secrets.SSH_HOST }}"
       port: "${{ secrets.SSH_PORT }}"
