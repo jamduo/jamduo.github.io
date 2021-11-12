@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://jamduo.org
+
+# Sitemaps
+Sitemap: https://jamduo.org/sitemap.xml
