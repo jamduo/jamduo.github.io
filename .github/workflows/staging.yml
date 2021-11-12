@@ -12,8 +12,6 @@ env:
 
 jobs:
   build:
-    concurrency: $deployment-target
-
     uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
     with:
       deployment-target: $deployment-target
@@ -25,7 +23,6 @@ jobs:
     
   deploy:
     needs: [ build ]
-    concurrency: $deployment-target
 
     uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
     with:

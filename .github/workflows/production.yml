@@ -21,7 +21,7 @@ jobs:
       node-environment: "production"
       artifact-name: $artifact-name
       artifact-path: $artifact-path
-      site-url: "https://staging.jamduo.org"
+      site-url: "https://jamduo.org"
     
   deploy:
     needs: [ build ]

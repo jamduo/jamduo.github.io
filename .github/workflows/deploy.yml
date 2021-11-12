@@ -54,6 +54,7 @@ jobs:
   deploy:
     name: "Deploy"
     environment: ${{ inputs.deployment-target }}
+    concurrency: ${{ inputs.deployment-target }}
     runs-on: ubuntu-latest
 
     steps:

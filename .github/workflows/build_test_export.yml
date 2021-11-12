@@ -7,7 +7,7 @@ on:
         default: "development"
         required: false
         type: string
-        
+
       node-version:
         description: "Node version to use during the build, test and export process."
         default: "16.x"
@@ -44,6 +44,7 @@ env:
 jobs:
   verify:
     name: "Build, Test & Export"
+    concurrency: ${{ inputs.deployment-target }}
     runs-on: ubuntu-latest
 
     steps:
