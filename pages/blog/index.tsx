@@ -37,7 +37,7 @@ const PostPreview: FC<Post> = ({ filename, content, preview }) => {
   return (
     <Text>
       {preview_text ?? "Preview Unavailable"}
-      <Link href={`/blog/${filename}`} p="0 0.5rem">
+      <Link href={`/blog/${filename}`} m="0 0.5rem">
         <Tag>Read More</Tag>
       </Link>
     </Text>

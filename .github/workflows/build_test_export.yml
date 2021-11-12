@@ -1,0 +1,104 @@
+name: Build, Lint and Test
+on:
+  workflow_call:
+    inputs:
+      deployment-target:
+        description: "The name of the deployment."
+        default: "development"
+        required: false
+        type: string
+
+      node-version:
+        description: "Node version to use during the build, test and export process."
+        default: "16.x"
+        required: false
+        type: string
+
+      node-environment:
+        description: "The NODE_ENV to use during the build, test and export process."
+        default: "production"
+        required: false
+        type: string
+
+      artifact-name:
+        description: "Name of the artifact to be exported."
+        default: "static-content"
+        required: true
+        type: string
+
+      artifact-path:
+        description: "Path to the artifact to be exported."
+        default: "./out/"
+        required: true
+        type: string
+
+      site-url:
+        description: "The URL of the site to export."
+        required: true
+        type: string
+
+env:
+  NODE_ENV: ${{ inputs.node-environment }}
+  SITE_URL: ${{ inputs.site-url }}
+      
+jobs:
+  verify:
+    name: "Build, Test & Export"
+    concurrency: ${{ inputs.deployment-target }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ inputs.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version:  ${{ inputs.node-version }}
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      
+      - id: install
+        name: Install
+        # # Clean Install
+        # run: npm ci --legacy-peer-deps
+        run: npm install
+
+      - id: lint
+        name: Lint
+        run: npm run lint --if-present
+
+      - id: build
+        name: Build
+        run: npm run build
+
+      - id: test
+        name: Test
+        run: npm run test --if-present
+
+      - id: export
+        name: Export
+        run: npm run export
+
+      - id: help
+        name: Help
+        run: |
+          echo ${{ inputs.artifact-path }}
+          ls -l ${{ inputs.artifact-path }}
+      
+      - id: upload_artifacts
+        name: Upload the static export
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.artifact-path }}

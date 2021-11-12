@@ -21,7 +21,7 @@ export default function _404() {
         <Text m="0">This page could not be found.</Text>
       </Flex>
       <Spacer />
-      <Button onClick={() => router.back()}>Go back to the homepage</Button>
+      <Button onClick={() => router.back()} aria-label="Return To Last Page">Go Back</Button>
       <Spacer />
       <Spacer />
     </Layout>

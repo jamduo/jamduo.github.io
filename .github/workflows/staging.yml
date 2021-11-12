@@ -7,36 +7,26 @@ on:
 
 jobs:
   build:
-    uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@development
+    uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
+    with:
+      deployment-target: "Staging"
+      node-version: "16.x"
+      node-environment: "production"
+      artifact-name: "static-export-staging"
+      artifact-path: "./out"
+      site-url: "https://staging.jamduo.org"
+    
+  deploy:
+    needs: [ build ]
 
-  deploy-cloud:
-    name: Deploy to staging.jamduo.org
-    environment: Staging
-    needs: build
-    concurrency: staging
-    runs-on: ubuntu-latest
-
-    steps:
-      - id: download_artifacts
-        name: Download the static export
-        uses: actions/download-artifact@v2
-        with:
-          name: static_content
-          path: ./out/
-
-      - id: "deploy"
-        name: "Copy static content to staging.jamduo.org"
-        env:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          user: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_RSA_KEY }}
-          local_dir: "./out/*"
-          remote_dir: "${{ secrets.STAGING_PROJECT_PATH }}"
-        run: |
-          mkdir ~/.ssh
-          echo "${key}" > ~/.ssh/gh_actions_key
-          chmod 600 ~/.ssh/gh_actions_key
-          ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
-          rsync -azr --delete -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
-          rm ~/.ssh -r
+    uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
+    with:
+      deployment-target: "Staging"
+      artifact-name: "static-export-staging"
+      artifact-path: "./out"
+    secrets:
+      host: "${{ secrets.HOST }}"
+      port: "${{ secrets.PORT }}"
+      username: "${{ secrets.USERNAME }}"
+      rsa-key: "${{ secrets.SSH_RSA_KEY }}"
+      target-path: "${{ secrets.STAGING_PROJECT_PATH }}"

@@ -7,61 +7,47 @@ on:
 
 jobs:
   build:
-    uses: jamduo/jamduo.github.io/.github/workflows/test_version.yml@main
+    uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@main
+    with:
+      deployment-target: "Production"
+      node-version: "16.x"
+      node-environment: "production"
+      artifact-name: "static-export-production"
+      artifact-path: "./out"
+      site-url: "https://jamduo.org"
+    
+  deploy:
+    needs: [ build ]
 
+    uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@main
+    with:
+      deployment-target: "Production"
+      artifact-name: "static-export-production"
+      artifact-path: "./out"
+    secrets:
+      host: "${{ secrets.HOST }}"
+      port: "${{ secrets.PORT }}"
+      username: "${{ secrets.USERNAME }}"
+      rsa-key: "${{ secrets.SSH_RSA_KEY }}"
+      target-path: "${{ secrets.PROJECT_PATH }}"
+  
   deploy-github-pages:
     name: Deploy to Github Pages
     needs: build
-    environment: Github.io
+    # environment: Github.io
     concurrency: github_pages
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
 
     steps:
       - id: download_artifacts
         name: Download the static export
         uses: actions/download-artifact@v2
         with:
-          name: static_content
-          path: ./out/
+          name: ${{ env.artifact-name }}
+          path: ${{ env.artifact-path }}
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./out
-
-  deploy-cloud:
-    name: Deploy to jamduo.org
-    environment: Production
-    needs: build
-    concurrency: production
-    runs-on: ubuntu-latest
-
-    steps:
-      - id: download_artifacts
-        name: Download the static export
-        uses: actions/download-artifact@v2
-        with:
-          name: static_content
-          path: ./out/
-
-      - id: "deploy"
-        name: "Copy static content to jamduo.org"
-        env:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          user: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_RSA_KEY }}
-          local_dir: "./out/*"
-          remote_dir: "${{ secrets.PROJECT_PATH }}"
-        run: |
-          mkdir ~/.ssh
-          echo "${key}" > ~/.ssh/gh_actions_key
-          chmod 600 ~/.ssh/gh_actions_key
-          ssh_command="ssh -p $port -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
-          rsync -azr --delete -e "${ssh_command}" $local_dir ${user}@${host}:${remote_dir}
-          rm ~/.ssh -r
+          publish_dir: ${{ env.artifact-path }}

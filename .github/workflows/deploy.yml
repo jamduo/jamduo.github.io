@@ -1,0 +1,70 @@
+name: Deploy via SSH (rsync)
+on:
+  workflow_call:
+    inputs:
+      deployment-target:
+        description: "The name of the deployment."
+        required: true
+        type: string
+
+      artifact-name:
+        description: "Name of the artifact to be imported."
+        default: "static-content"
+        required: true
+        type: string
+
+      artifact-path:
+        description: "Path to the artifact to be imported."
+        default: "./out"
+        required: true
+        type: string
+
+    secrets:
+      host:
+        description: "Hostname of the server to deploy to"
+        required: true
+      
+      port:
+        description: "Port of the server to deploy to"
+        required: true
+      
+      username:
+        description: "Username of the server to deploy to"
+        required: true
+
+      rsa-key:
+        description: "The private RSA key of the server to deploy to"
+        required: true
+
+      target-path:
+        description: "The path on the server to deploy to"
+        required: true
+
+env:
+  NODE_ENV: ${{ inputs.environment }}
+  SITE_URL: ${{ inputs.site_url }}
+      
+jobs:
+  deploy:
+    name: "Deploy"
+    environment: ${{ inputs.deployment-target }}
+    concurrency: ${{ inputs.deployment-target }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - id: download_artifacts
+      name: "Download the artifacts"
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.artifact-path }}
+      
+    - id: "deploy"
+      name: "Copy artifact(s) content to remote host"
+      run: |
+        mkdir ~/.ssh
+        echo "${{ secrets.rsa-key }}" > ~/.ssh/gh_actions_key
+        chmod 600 ~/.ssh/gh_actions_key
+        ssh_command="ssh -p ${{ secrets.port }} -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no"
+        rsync --compress --recursive --times --delete-after --force --ignore-errors -e "$ssh_command" ${{ inputs.artifact-path }}/ ${{ secrets.username }}@${{ secrets.host }}:${{ secrets.target-path }}/
+        rm ~/.ssh -r
