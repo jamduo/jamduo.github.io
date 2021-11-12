@@ -7,7 +7,7 @@ on:
 
 env:
   artifact-name: "static-export-production"
-  artifact-path: "./out/"
+  artifact-path: "./out"
   deployment-target: "Production"
 
 jobs:
