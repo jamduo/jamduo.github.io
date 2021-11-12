@@ -89,6 +89,12 @@ jobs:
       - id: export
         name: Export
         run: npm run export
+
+      - id: help
+        name: Help
+        run: |
+          echo ${{ inputs.artifact-path }}
+          ls -l ${{ inputs.artifact-path }}
       
       - id: upload_artifacts
         name: Upload the static export
