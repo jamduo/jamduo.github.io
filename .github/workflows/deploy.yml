@@ -39,8 +39,6 @@ on:
       target-path:
         description: "The path on the server to deploy to"
         required: true
-        default: "${{ secrets.SSH_PROJECT_PATH }}"
-        type: string
 
 env:
   NODE_ENV: ${{ inputs.environment }}
