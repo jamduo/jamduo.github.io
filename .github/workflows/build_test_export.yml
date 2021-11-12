@@ -39,7 +39,7 @@ on:
 
 env:
   NODE_ENV: ${{ inputs.node-environment }}
-  SITE_URL: ${{ inputs.site_url }}
+  SITE_URL: ${{ inputs.site-url }}
       
 jobs:
   verify:
