@@ -26,7 +26,7 @@ jobs:
 
     needs: [ build ]
     concurrency: ${{ env.concurrency }}
-    uses: jamduo/jamduo.github.io/.github/workflows/deploy_ssh.yml@development
+    uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
     with:
       artifact-name: ${{ env.artifact-name }}
       artifact-path: ${{ env.artifact-path }}
