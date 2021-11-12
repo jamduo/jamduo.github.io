@@ -12,13 +12,13 @@ env:
 
 jobs:
   build:
-    concurrency: ${{ concurrency }}
+    concurrency: ${{ env.concurrency }}
     uses: jamduo/jamduo.github.io/.github/workflows/build_test_export.yml@development
     with:
       node-version: "16.x"
       node-environment: "production"
-      artifact-name: ${{ artifact-name }}
-      artifact-path: ${{ artifact-path }}
+      artifact-name: ${{ env.artifact-name }}
+      artifact-path: ${{ env.artifact-path }}
       site-url: "https://staging.jamduo.org"
     
   deploy:
@@ -28,8 +28,8 @@ jobs:
     concurrency: ${{ concurrency }}
     uses: jamduo/jamduo.github.io/.github/workflows/deploy.yml@development
     with:
-      artifact-name: ${{ artifact-name }}
-      artifact-path: ${{ artifact-path }}
+      artifact-name: ${{ env.artifact-name }}
+      artifact-path: ${{ env.artifact-path }}
     secrets:
       host: "${{ secrets.SSH_HOST }}"
       port: "${{ secrets.SSH_PORT }}"
