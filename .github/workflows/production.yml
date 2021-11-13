@@ -43,11 +43,11 @@ jobs:
         name: Download the static export
         uses: actions/download-artifact@v2
         with:
-          name: ${{ env.artifact-name }}
-          path: ${{ env.artifact-path }}
+          name: "static-export-production"
+          path: "./out"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ${{ env.artifact-path }}
+          publish_dir: "./out"

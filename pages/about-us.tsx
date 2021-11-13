@@ -1,19 +1,20 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Box, BoxProps, ButtonGroup, Flex, Heading } from '@chakra-ui/react';
 import Layout from '@components/layouts/centered';
 import { MetaOptions } from "@components/meta";
 import Description from '@components/description';
-import { GithubLink, GitlabLink, WebsiteLink, DiscordLink } from "@components/social_links";
+import { GithubLink, GitlabLink, WebsiteLink, DiscordLink, EmailLink } from "@components/social_links";
 
 interface ProfileOptions {
   name: string;
   description: string;
-  github?: string;
-  gitlab?: string;
+  email?: string;
   website?: {
     name: string;
     url: string;
   },
+  github?: string;
+  gitlab?: string;
   discord?: {
     tag: string;
     user_id: string;
@@ -24,6 +25,7 @@ const profiles: ProfileOptions[] = [
   {
     name: "Justin",
     description: "It works on my machine",
+    email: "justin@jamduo.org",
     github: "justinac0",
     // gitlab: "justinac",
     website: {
@@ -34,6 +36,7 @@ const profiles: ProfileOptions[] = [
   {
     name: "Mitch",
     description: "It's ugly, but it works",
+    email: "mitch@jamduo.org",
     github: "ZyrnDev",
     gitlab: "Zyrn",
     website: {
@@ -70,15 +73,16 @@ const meta: MetaOptions = {
   )
 }
 
-const Profile: FC<BoxProps & ProfileOptions > = ({ name, description, github, gitlab, website, discord, children, ...props }) => (
+const Profile: FC<BoxProps & ProfileOptions > = ({ name, description, email, github, gitlab, website, discord, children, ...props }) => (
   <Box p="1rem" minW="15rem" m="auto" {...props}>
     <Heading as="h2" size="xl">{name}</Heading>
       
     <Description as="h3" size="md">&quot;{description}&quot;</Description>
     <ButtonGroup>
+      {email && <EmailLink email={email} />}
+      {website && <WebsiteLink {...website} />}
       {github && <GithubLink path={github} />}
       {gitlab && <GitlabLink path={gitlab} />}
-      {website && <WebsiteLink {...website} />}
       {discord && <DiscordLink {...discord} />}
     </ButtonGroup>
     {children}
