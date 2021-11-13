@@ -80,9 +80,9 @@ const Profile: FC<BoxProps & ProfileOptions > = ({ name, description, email, git
     <Description as="h3" size="md">&quot;{description}&quot;</Description>
     <ButtonGroup>
       {email && <EmailLink email={email} />}
+      {website && <WebsiteLink {...website} />}
       {github && <GithubLink path={github} />}
       {gitlab && <GitlabLink path={gitlab} />}
-      {website && <WebsiteLink {...website} />}
       {discord && <DiscordLink {...discord} />}
     </ButtonGroup>
     {children}
