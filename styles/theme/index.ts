@@ -19,11 +19,11 @@ const styles = {
     },
     html: {
       "lineHeight": 1.5,
-      "-webkit-text-size-adjust": "100%",
+      "WebkitTextSizeAdjust": "100%",
       "fontFamily": "system-ui,sans-serif",
-      "-webkit-font-smoothing": "antialiased",
+      "WebkitFontSmoothing": "antialiased",
       "textRendering": "optimizeLegibility",
-      "-moz-osx-font-smoothing": "grayscale",
+      "MozOsxFontSmoothing": "grayscale",
       "touchAction": "manipulation",
     },
     body: {
