@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Box, BoxProps, ButtonGroup, Flex, Heading } from '@chakra-ui/react';
 import Layout from '@components/layouts/centered';
 import { MetaOptions } from "@components/meta";
-import Description from '@components/description';
+import TagLine from '@components/tagline';
 import { GithubLink, GitlabLink, WebsiteLink, DiscordLink, EmailLink } from "@components/social_links";
 
 interface ProfileOptions {
@@ -38,7 +38,7 @@ const profiles: ProfileOptions[] = [
     description: "It's ugly, but it works",
     email: "mitch@jamduo.org",
     github: "ZyrnDev",
-    gitlab: "Zyrn",
+    // gitlab: "Zyrn",
     website: {
       name: "Zyrn.Dev",
       url: "https://zyrn.dev",
@@ -61,10 +61,10 @@ const meta: MetaOptions = {
       <Heading as="h1" size="4xl">
         Who are we?
       </Heading>
-      <Description as="h2" size="md">
+      <TagLine as="h2" size="md">
         jamduo: we jam &amp; theres 2 of us.
         {/* Justin And Mitch (JAM), a DUO of software developers, working on various passion projects. */}
-      </Description>
+      </TagLine>
       
       <Flex as="section" wrap="wrap" textAlign="center">
         {profiles.map((profile) => (<Profile key={profile.name} {...profile} />))}
@@ -77,7 +77,7 @@ const Profile: FC<BoxProps & ProfileOptions > = ({ name, description, email, git
   <Box p="1rem" minW="15rem" m="auto" {...props}>
     <Heading as="h2" size="xl">{name}</Heading>
       
-    <Description as="h3" size="md">&quot;{description}&quot;</Description>
+    <TagLine as="h3" size="md">&quot;{description}&quot;</TagLine>
     <ButtonGroup>
       {email && <EmailLink email={email} />}
       {website && <WebsiteLink {...website} />}

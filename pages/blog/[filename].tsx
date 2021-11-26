@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import { Box, Container, Flex, Heading, Spacer, Text } from '@chakra-ui/react';
 import { getPost, getPostPaths, Post } from '@/lib/posts';
 import Layout from '@components/layouts/centered';
-import Description from '@components/description';
+import TagLine from '@components/tagline';
 import { Link } from '@components/core';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -34,9 +34,9 @@ export const PostTitle: FC<Post & { isPreview?: boolean }> = ({ filename, title,
     <>
       {Title}
       <Flex align="center">
-        <Heading as="h2" size="sm" m="0" mb={bottomMargin}>by {author}</Heading>
+        <TagLine as="h2" size="sm" m="0" mb={bottomMargin}>by {author}</TagLine>
         <Spacer />
-        <Description as="time" size="sm" m="0" mb={bottomMargin} dateTime={(new Date(date)).toISOString()}>{date}</Description>
+        <TagLine as="time" size="sm" m="0" mb={bottomMargin} dateTime={(new Date(date)).toISOString()}>{date}</TagLine>
       </Flex>
     </>
   );
@@ -48,7 +48,7 @@ const Render: FC<Post> = ({ children, ...post }) => {
     <Layout meta={{ title: "Blog - " + title, description: preview }}>
       <Container as="article" maxW="container.lg" textAlign="start">
         <PostTitle {...post} />
-        <Box dangerouslySetInnerHTML={{ __html: content }} />
+        <Box id="blog-article" dangerouslySetInnerHTML={{ __html: content }} />
       </Container>
     </Layout>
   );

@@ -7,7 +7,7 @@ export const SocialLink: FC<{ name: string, Icon: import("@chakra-ui/system").Co
   <Link href={url} isExternal>
     <IconButton 
       aria-label={name}
-      icon={(<Icon boxSize={size} />)}
+      icon={(<Icon boxSize={size} color="black"/>)}
     />
   </Link>
 );

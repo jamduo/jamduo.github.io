@@ -2,7 +2,7 @@
 import Layout from '@components/layouts/centered';
 import { MetaOptions } from '@components/meta';
 import { Box, Center, Heading } from '@chakra-ui/react';
-import Description from '@components/description';
+import TagLine from '@components/tagline';
 import { Link } from '@components/core';
 
 const meta: MetaOptions = {
@@ -16,9 +16,9 @@ export default function Home() {
       <Heading as="h1" size="4xl" m="0.83rem 0">
         Welcome to <Link href="https://www.jamduo.org" isText>jamduo!</Link>
       </Heading>
-      <Description as="h2" size="lg">
+      <TagLine as="h2" size="lg">
         making loveable software together
-      </Description>
+      </TagLine>
     </Layout>
   )
 }

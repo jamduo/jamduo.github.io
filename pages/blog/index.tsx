@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { NextPage, GetStaticProps } from 'next';
-import { Box, Container, Heading, Flex, Spacer, Text, Tag } from '@chakra-ui/react';
+import { Box, Container, Heading, Text, Tag } from '@chakra-ui/react';
 import Layout from '@components/layouts/centered';
 import { MetaOptions } from '@components/meta';
 import { Link } from '@components/core';
 import { getSortedPosts, Post } from '@/lib/posts';
-import Description from '@components/description';
 import { PostTitle } from '@/pages/blog/[filename]';
 
 const meta: MetaOptions = {
