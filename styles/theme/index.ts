@@ -31,6 +31,13 @@ const styles = {
       // color: mode(palette.light.foreground, palette.dark.foreground)(props),
       // bgColor: mode(palette.light.base, palette.dark.base)(props),
     },
+    "article #blog-article a": {
+      color: mode(palette.light.cyan, palette.dark.cyan)(props),
+      
+    },
+    "article #blog-article a:hover, article #blog-article a:focus": {
+      textDecoration: "underline",
+    },
     a: {
       textDecoration: "inherit",
       backgroundColor: "transparent",

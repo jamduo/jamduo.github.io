@@ -5,7 +5,7 @@ import { Link, ThemeToggleButton } from '@components/core';
 
 type LinkType = { href: string; label: string }
 const LINKS: LinkType[] = [
-  { href: '/about-us', label: 'About' },
+  { href: '/about', label: 'About' },
   { href: '/blog', label: 'Blog' },
   // { href: '/test', label: 'Test' },
 ];
