@@ -18,7 +18,7 @@ export const light = {
     currentline: "#44475a",
     selection: "#44475a",
     foreground: "#282a36",
-    comment: "hsl(225, 67%, 31%)",
+    comment: "hsl(215, 92%, 56%)",
     cyan: "hsl(191, 97%, 54%)",
     green: "#50fa7b",
     orange: "#ffb86c",
