@@ -37,34 +37,35 @@ export function getPostFileNames() {
     .map(filename => filename.replace(fileExt, ''));
 }
 
-export function getPosts(): Post[] {
+export async function getPosts(): Promise<Post[]> {
   const filenames = getPostFileNames();
-  return filenames
-    .map(filename => getPost(filename))
-    .filter(post => post.published || is_dev); // Allow unpublished posts in dev mode
+  const post_promises = filenames.map(filename => getPost(filename))
+  const posts = await Promise.all(post_promises)
+
+  return posts.filter(post => post.published || is_dev); // Allow unpublished posts in dev mode
 }
 
 const sortByDateDesc = (a: PostMetaData, b: PostMetaData) => (new Date(b.date)).getTime() - (new Date(a.date)).getTime();
-export function getSortedPosts(): PostMetaData[] {
-  const posts = getPosts();
+export async function getSortedPosts(): Promise<PostMetaData[]> {
+  const posts = await getPosts();
   return posts.sort(sortByDateDesc);
 }
 
-export function getPostPaths(): { params: { filename: string } }[] {
-  const posts = getPosts();
+export async function getPostPaths(): Promise<{ params: { filename: string } }[]> {
+  const posts = await getPosts();
   return posts.map(post => ({ params: { filename: post.filename } }));
 }
 
-export function getPost(filename: string): Post {
+export async function getPost(filename: string): Promise<Post> {
   const fullPath = path.join(postsDirectory, filename + ".md");
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const fileContents = await fs.promises.readFile(fullPath, 'utf8');
   
   // Use gray-matter to parse the post metadata section
-  const { content, data: metadata }: { content: string, data: PostMetaData } = matter(fileContents) as any;
-
+  const { content: rawContent, data: metadata }: { content: string, data: PostMetaData } = matter(fileContents) as any;
+  const content = await markdown_pipeline.process(rawContent).then(result => result.toString());
   return {
     filename,
     ...metadata,
-    content:  markdown_pipeline.processSync(content).toString(),
+    content,
   };
 }
