@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = await getSortedPosts();
   return {
     props: {
-      posts: posts.slice(0, 5),
+      posts,
     }
   }
 }

@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getPostPaths();
+  const paths = await getPostPaths();
   return {
     paths,
     fallback: false
@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const PostTitle: FC<Post & { isPreview?: boolean }> = ({ filename, title, date, author, published, isPreview = false }) => {
   const titleSize = isPreview ? 'lg' : '2xl';
   const bottomMargin = isPreview ? 0 : "0.8em";
-  var Title = <Heading as="h1" size={titleSize} mb="0">{ published || (<Text as="span" color="red">(Not Published) </Text>) }{title}</Heading>;
+  var Title = <Heading as="h1" size={titleSize} mb="0.1em">{ published || (<Text as="span" color="red">(Not Published) </Text>) }{title}</Heading>;
   if (isPreview) {
     Title = <Link href={`/blog/${filename}`}>{Title}</Link>;
   }
