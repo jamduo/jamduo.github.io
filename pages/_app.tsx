@@ -1,4 +1,4 @@
-import '@styles/prism-okaidia.css';
+import '@styles/prism-themes/prism-vsc-dark-plus.css';
 
 import type { AppProps } from 'next/app';
 import { ChakraProvider } from "@chakra-ui/react";
