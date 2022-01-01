@@ -8,7 +8,7 @@ import { AnimatePresence } from 'framer-motion';
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
-    <ChakraProvider theme={theme} resetCSS={false}>
+    <ChakraProvider theme={theme} resetCSS={true}>
       <Layout router={router}>
         <AnimatePresence initial={true} exitBeforeEnter>
           <Component {...pageProps} />
