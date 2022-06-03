@@ -58,6 +58,12 @@ jobs:
       with:
         name: ${{ inputs.artifact-name }}
         path: ${{ inputs.artifact-path }}
+    
+    - id: install_rsync
+      name: "Install Rsync"
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rsync
       
     - id: "deploy"
       name: "Copy artifact(s) content to remote host"
