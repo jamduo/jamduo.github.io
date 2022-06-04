@@ -50,8 +50,8 @@ export const PostTags: FC<{ tags: string[], headingSize: string, tagSize: string
 };
 
 type PostPreviewOptions = {
-  maxLines: number | string,
-  lineHeight: number | string,
+  maxLines?: number | string,
+  lineHeight?: number | string,
 }
 export const PostPreview: FC<Post & PostPreviewOptions > = ({ filename, preview, maxLines = 3, lineHeight = 1 }) => {
   return (
@@ -62,7 +62,7 @@ export const PostPreview: FC<Post & PostPreviewOptions > = ({ filename, preview,
          css={{
           display: "-webkit-box",
           "WebkitBoxOrient": "vertical",
-          "WebkitLineClamp": maxLines
+          "WebkitLineClamp": maxLines as any
         }}
       >{preview ?? "Preview Unavailable"}</Text>
       <ReadMore filename={filename}/>
