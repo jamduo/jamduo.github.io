@@ -3,6 +3,7 @@ title: 'Some Post Title'
 date: '3000-01-01'
 author: 'Author Name'
 published: false
+tags: ['tag1', 'tag2']
 preview: "This is a preview of the post's content."
 ---
 

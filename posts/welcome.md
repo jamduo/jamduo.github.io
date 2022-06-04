@@ -3,6 +3,7 @@ title: 'Welcome'
 date: '2021-11-09'
 author: "Mitch"
 published: true
+tags: ['mitch']
 preview: "An exciting 😄 new update from the jamduo team. Our official launch 🚀 is finally here!"
 ---
 
