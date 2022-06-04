@@ -51,9 +51,8 @@ export const PostTags: FC<{ tags: string[], headingSize: string, tagSize: string
 
 type PostPreviewOptions = {
   maxLines?: number | string,
-  lineHeight?: number | string,
 }
-export const PostPreview: FC<Post & PostPreviewOptions > = ({ filename, preview, maxLines = 3, lineHeight = 1 }) => {
+export const PostPreview: FC<Post & PostPreviewOptions > = ({ filename, preview, maxLines = 3 }) => {
   return (
     <>
       <Text 
