@@ -40,6 +40,11 @@ on:
 env:
   NODE_ENV: ${{ inputs.node-environment }}
   SITE_URL: ${{ inputs.site-url }}
+  BASE_PATH: ${{ inputs.base-path }}
+  ASSET_PREFIX: ${{ inputs.asset-prefix }}
+  COMMIT_HASH: ${{ github.sha }}
+  COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+  COMMIT_REF: ${{ github.head_ref || github.ref_name }}
       
 jobs:
   verify:
